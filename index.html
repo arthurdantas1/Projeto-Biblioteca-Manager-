@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gerenciamento de Biblioteca</title>
+    <meta name="description" content="Sistema completo de gerenciamento de biblioteca com controle de usuários, livros e empréstimos">
+    <link rel="stylesheet" href="biblioteca.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">📚 Biblioteca Digital</h1>
+            <p class="subtitle">Sistema de Gerenciamento</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Navegação por abas -->
+        <nav class="tabs">
+            <button class="tab-button active" data-tab="inicio">
+                <span>🏠</span> Início
+            </button>
+            <button class="tab-button" data-tab="usuarios">
+                <span>👥</span> Usuários
+            </button>
+            <button class="tab-button" data-tab="livros">
+                <span>📖</span> Livros
+            </button>
+            <button class="tab-button" data-tab="emprestimos">
+                <span>📋</span> Empréstimos
+            </button>
+        </nav>
+
+        <!-- Tela Inicial -->
+        <section id="inicio" class="tab-content active">
+            <div class="welcome-section">
+                <h2>Bem-vindo ao Sistema de Biblioteca</h2>
+                <p>Gerencie usuários, livros e empréstimos de forma simples e eficiente.</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <h3 id="total-usuarios">0</h3>
+                            <p>Usuários Cadastrados</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📚</div>
+                        <div class="stat-info">
+                            <h3 id="total-livros">0</h3>
+                            <p>Livros no Acervo</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📖</div>
+                        <div class="stat-info">
+                            <h3 id="livros-disponiveis">0</h3>
+                            <p>Livros Disponíveis</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🔄</div>
+                        <div class="stat-info">
+                            <h3 id="emprestimos-ativos">0</h3>
+                            <p>Empréstimos Ativos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tela de Usuários -->
+        <section id="usuarios" class="tab-content">
+            <div class="section-header">
+                <h2>Gerenciar Usuários</h2>
+                <button class="btn btn-primary" onclick="abrirModalUsuario()">+ Novo Usuário</button>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome Completo</th>
+                            <th>E-mail</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-usuarios">
+                        <tr>
+                            <td colspan="4" class="empty-state">Nenhum usuário cadastrado</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Tela de Livros -->
+        <section id="livros" class="tab-content">
+            <div class="section-header">
+                <h2>Gerenciar Livros</h2>
+                <button class="btn btn-primary" onclick="abrirModalLivro()">+ Novo Livro</button>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Autor</th>
+                            <th>Ano</th>
+                            <th>Gênero</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-livros">
+                        <tr>
+                            <td colspan="7" class="empty-state">Nenhum livro cadastrado</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Tela de Empréstimos -->
+        <section id="emprestimos" class="tab-content">
+            <div class="section-header">
+                <h2>Gerenciar Empréstimos</h2>
+                <button class="btn btn-primary" onclick="abrirModalEmprestimo()">+ Novo Empréstimo</button>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuário</th>
+                            <th>Livro</th>
+                            <th>Data Empréstimo</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-emprestimos">
+                        <tr>
+                            <td colspan="6" class="empty-state">Nenhum empréstimo registrado</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Usuário -->
+    <div id="modal-usuario" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-usuario-titulo">Cadastrar Usuário</h3>
+                <button class="btn-close" onclick="fecharModalUsuario()">&times;</button>
+            </div>
+            <form id="form-usuario" onsubmit="salvarUsuario(event)">
+                <input type="hidden" id="usuario-id">
+                <div class="form-group">
+                    <label for="usuario-nome">Nome Completo *</label>
+                    <input type="text" id="usuario-nome" required placeholder="Digite o nome completo">
+                </div>
+                <div class="form-group">
+                    <label for="usuario-email">E-mail *</label>
+                    <input type="email" id="usuario-email" required placeholder="exemplo@email.com">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="fecharModalUsuario()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Livro -->
+    <div id="modal-livro" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-livro-titulo">Cadastrar Livro</h3>
+                <button class="btn-close" onclick="fecharModalLivro()">&times;</button>
+            </div>
+            <form id="form-livro" onsubmit="salvarLivro(event)">
+                <input type="hidden" id="livro-id">
+                <div class="form-group">
+                    <label for="livro-titulo">Título *</label>
+                    <input type="text" id="livro-titulo" required placeholder="Digite o título do livro">
+                </div>
+                <div class="form-group">
+                    <label for="livro-autor">Autor *</label>
+                    <input type="text" id="livro-autor" required placeholder="Digite o nome do autor">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="livro-ano">Ano *</label>
+                        <input type="number" id="livro-ano" required placeholder="2024" min="1000" max="2100">
+                    </div>
+                    <div class="form-group">
+                        <label for="livro-genero">Gênero *</label>
+                        <input type="text" id="livro-genero" required placeholder="Ex: Ficção, Romance">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="fecharModalLivro()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Empréstimo -->
+    <div id="modal-emprestimo" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Registrar Empréstimo</h3>
+                <button class="btn-close" onclick="fecharModalEmprestimo()">&times;</button>
+            </div>
+            <form id="form-emprestimo" onsubmit="salvarEmprestimo(event)">
+                <div class="form-group">
+                    <label for="emprestimo-usuario">Usuário *</label>
+                    <select id="emprestimo-usuario" required>
+                        <option value="">Selecione um usuário</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="emprestimo-livro">Livro *</label>
+                    <select id="emprestimo-livro" required>
+                        <option value="">Selecione um livro disponível</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="fecharModalEmprestimo()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="biblioteca.js"></script>
+</body>
+</html>
