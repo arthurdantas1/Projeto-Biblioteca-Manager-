@@ -76,12 +76,12 @@ Os dados permanecem enquanto não forem apagados manualmente.
 
 -   **HTML5**
 -   **CSS3**
--   **JavaScript Puro (Vanilla JS)**
+-   **JavaScript**
 -   **LocalStorage**
 
 ------------------------------------------------------------------------
 
-## 🌟 Melhorias Futuras (opcional)
+## 🌟 Melhorias Futuras
 
 -   Filtros e buscas nas tabelas\
 -   Exportação de relatórios (PDF/CSV)\
