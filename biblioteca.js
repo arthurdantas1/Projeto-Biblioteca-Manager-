@@ -1,4 +1,4 @@
-// Sistema de Gerenciamento de Biblioteca - JavaScript Vanilla
+// Sistema de Gerenciamento de Biblioteca 
 
 // ============= INICIALIZAÇÃO =============
 document.addEventListener('DOMContentLoaded', function() {
